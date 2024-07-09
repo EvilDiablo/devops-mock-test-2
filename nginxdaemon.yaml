@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginxdaemon
+spec:
+  selector:
+    matchLabels:
+      name: nginxdaemon
+  template:
+    metadata:
+      labels:
+        name: nginxdaemon
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: nginxdaemon
+        image: nginx:latest
